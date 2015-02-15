@@ -1,0 +1,13 @@
+// icebox:
+  // make array of colors, colors picked from random from array
+  // make background a softer blue-gray
+  // spacebar inverst the colors
+  // up/down re-renders the grid with larger/smaller cells
+  // control the border-radia
+  // radias random or osciolating. 
+
+// iceicebox
+  // better API for interaciting with art library. 
+  // what if someone like Elon ro Alex could use it?
+    // what are things they would want to do?
+    // what's an intuative way to use the libraries?

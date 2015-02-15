@@ -1,0 +1,17 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  background-color: blue;
+}
+
+.grid {
+  overflow: hidden;
+}
+
+.cell {
+  display: inline-block;
+  padding: 1px;
+}
