@@ -4,7 +4,8 @@
 }
 
 body {
-  background-color: blue;
+  background-color: #0543AC;
+  /*background-color: #0066FF;*/
 }
 
 .grid {
@@ -14,4 +15,13 @@ body {
 .cell {
   display: inline-block;
   padding: 1px;
+
+
+}
+
+  /*remove this*/
+#test {
+  background-color: #FF66D7;
+  height: 200px;
+  width: 200px;
 }

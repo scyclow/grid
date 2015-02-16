@@ -7,70 +7,53 @@ var R = Math.floor(Object.keys(Grid).length/2);
 var C = Math.floor(Object.keys(Grid[0]).length/2);
 var START = Grid[R][C];
 
-var newCells = [START];
-var oldCells = [];
-
-function dGrid(color) {
-  var recentCells = oldCells;
-  oldCells = newCells;
-  newCells = [];
-
-  dCell(oldCells[0], color)
-  for (var i=0; i<oldCells.length; i++) {
-    var cell = oldCells[i];
-
-    var coords = cell.split('-')
-    var row = Number( coords[0] );
-    var col = Number( coords[1] );
-
-    var neighbors = [
-      Grid[row][col+1],
-      Grid[row][col-1],
-      Grid[row+1] ? Grid[row+1][col] : null,
-      Grid[row-1] ? Grid[row-1][col] : null
-    ];
-
-    for (var n in neighbors) {     
-      if (neighbors[n] && 
-        newCells.indexOf(neighbors[n]) < 0 && 
-        recentCells.indexOf(neighbors[n]) < 0
-      ) {
-        dCell(neighbors[n], color);
-        newCells.push(neighbors[n]);
-      }
-    }
-  }
-}
-
 function dCell(cell, color) {
   document.getElementById(cell).style['background-color']=color;
 }
 
-function warp() {
-  $('.cell').css({
-    'border-radius': Math.random()*CELLSIZE
-  });
+function Growth(start, color) {
+  var newCells = [start];
+  var oldCells = [];
+  var recentCells;
 
-  var randSize = Math.random()*CELLSIZE;
+  this.dead = false;
 
-  $('.cell').css({
-    'height': randSize, 
-    'width': randSize,
-    'margin-top': (CELLSIZE-randSize)/2,
-    'margin-bottom': (CELLSIZE-randSize)/2,
-    'margin-left': (CELLSIZE-randSize)/2,
-    'margin-right': (CELLSIZE-randSize)/2,
-  });
-}
+  this.dGrid = function() {
+    recentCells = oldCells;
+    oldCells = newCells;
+    newCells = [];
 
-var count = 0;
-var color = 'orange';
+    if(oldCells[0]) {dCell(oldCells[0], color)}
 
-function run() {
-  count += 1;
+    this.dead = true; // growth is dead, unless told otherwise
 
-  dGrid(color);
-  warp()
+    for (var i=0; i<oldCells.length; i++) {
+      var cell = oldCells[i];
+
+      var coords = cell.split('-')
+      var row = Number( coords[0] );
+      var col = Number( coords[1] );
+
+      var neighbors = [
+        Grid[row][col+1],
+        Grid[row][col-1],
+        Grid[row+1] ? Grid[row+1][col] : null,
+        Grid[row-1] ? Grid[row-1][col] : null
+      ];
+
+      for (var n in neighbors) {   
+        var neighbor = neighbors[n];  
+        if (neighbor && 
+          newCells.indexOf(neighbor) < 0 && 
+          recentCells.indexOf(neighbor) < 0
+        ) {
+          this.dead = false;
+          dCell(neighbor, color);
+          newCells.push(neighbor);
+        }
+      }
+    }
+  }
 }
 
 function renderGrid(cellSize, adj) {
@@ -100,18 +83,8 @@ function renderGrid(cellSize, adj) {
     griDOM.appendChild(tr);
   }
 
-// TODO remove jQuery
-  ;
-  $('#grid').css({
-    'width': maxW/adj,
-    'height': maxH*adj,
-  })
-  ;
-  $('.cell').css({
-    'width': cellSize/2,
-    'height': cellSize/2,
-    'border-radius': cellSize/2
-  })
+  griDOM.style.width = maxW/adj;
+  griDOM.style.height = maxH*adj;
 
   return gridJS;
 }
