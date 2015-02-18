@@ -100,7 +100,6 @@ function reRenderGrid(size) { // clean this shit up
   midR = Math.floor(R/2);
   midC = Math.floor(C/2);
   START = Grid[midR][midC];
-  console.log('rerendr')
 }
 
 
