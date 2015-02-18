@@ -3,9 +3,12 @@ CELLSIZE = 20;//px
 ADJ = 0.91;
 
 var Grid = renderGrid(CELLSIZE, ADJ);
-var R = Math.floor(Object.keys(Grid).length/2);
-var C = Math.floor(Object.keys(Grid[0]).length/2);
-var START = Grid[R][C];
+var R = Object.keys(Grid).length;
+var C = Object.keys(Grid[0]).length;
+
+var midR = Math.floor(R/2);
+var midC = Math.floor(C/2);
+var START = Grid[midR][midC];
 
 function dCell(cell, color) {
   document.getElementById(cell).style['background-color']=color;
@@ -87,6 +90,17 @@ function renderGrid(cellSize, adj) {
   griDOM.style.height = maxH*adj;
 
   return gridJS;
+}
+
+function reRenderGrid(size) { // clean this shit up
+  Grid = renderGrid(size, ADJ);
+  R = Object.keys(Grid).length;
+  C = Object.keys(Grid[0]).length;
+
+  midR = Math.floor(R/2);
+  midC = Math.floor(C/2);
+  START = Grid[midR][midC];
+  console.log('rerendr')
 }
 
 
