@@ -8,10 +8,26 @@ COLORS = [
 ];
 BASE_COLOR = COLORS[0];
 
+function changeBase(n) {
+  var original = [
+    '#0543AC', '#FF7000', '#88FF00',
+    '#FF66D7', '#2BF2FF', '#FFFFFF'
+  ];
+
+  for (var i=0; i<n; i++) {
+    original.push(original.shift());
+  }
+
+  COLORS = original;
+  BASE_COLOR = COLORS[0];
+
+  document.querySelector('body').style['background-color'] = BASE_COLOR;
+}
+
 CELL_SIZE_ADJ = 1;
 CELL_RAD_ADJ = 1;
 
-activeColor = null;
+var lastColor = null;
 function colorSample(base) {
   if (base) {
     return COLORS[0];
@@ -20,11 +36,11 @@ function colorSample(base) {
   var ix = Math.floor( Math.random()*colors.length );
 
   newColor = colors[ix];
-  if (newColor === activeColor) {
+  if (newColor === lastColor) {
     return colorSample(base);
   } else {
-    activeColor = newColor;
-    return activeColor;
+    lastColor = newColor;
+    return lastColor;
   }
 }
 
@@ -65,9 +81,6 @@ function run() {
 document.addEventListener("DOMContentLoaded", function(event) {
   setInterval(run, TIME);
 });
-///////////////
-// warp()/////
-/////////////
 
 function newGrowth(colorIx) {
   color = COLORS[colorIx] || colorSample();
@@ -98,6 +111,13 @@ window.onkeydown = function(e){
   if (e.keyCode === 66) { newGrowth(3); } // b
   if (e.keyCode === 78) { newGrowth(4); } // n
   if (e.keyCode === 77) { newGrowth(5); } // m
+
+  if (e.keyCode === 68) { changeBase(0); } // d
+  if (e.keyCode === 70) { changeBase(1); } // f
+  if (e.keyCode === 71) { changeBase(2); } // g
+  if (e.keyCode === 72) { changeBase(3); } // h
+  if (e.keyCode === 74) { changeBase(4); } // j
+  if (e.keyCode === 75) { changeBase(5); } // k
 
   if (e.keyCode === 38) { changeCellSize(0.1); } // up
   if (e.keyCode === 40) { changeCellSize(-0.1); } // down
