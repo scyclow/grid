@@ -1,4 +1,4 @@
-# [][][]
+# [[]|[]|[]](https://scyclow.github.io/grid)
 
 #Controls 
 ### Change colors:
@@ -12,7 +12,7 @@
 * space bar
 
 ### Patterns:
-* c,v,b,n,m & space bar in rapid succession. 
+* alternate between c,v,b,n,m and space bar every ~0.5 seconds. 
 
 ### Play with cell size:
 * up

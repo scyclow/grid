@@ -10,8 +10,8 @@ var midR = Math.floor(R/2);
 var midC = Math.floor(C/2);
 var START = Grid[midR][midC];
 
-function dCell(cell, color) {
-  document.getElementById(cell).style['background-color']=color;
+function dCell(cell, cssStyle, property) {
+  document.getElementById(cell).style[cssStyle]=property;
 }
 
 function Growth(start, color) {
@@ -21,12 +21,14 @@ function Growth(start, color) {
 
   this.dead = false;
 
-  this.dGrid = function() {
+  this.render = function() {
     recentCells = oldCells;
     oldCells = newCells;
     newCells = [];
 
-    if(oldCells[0]) {dCell(oldCells[0], color)}
+    if(oldCells[0]) {
+      dCell(oldCells[0], 'background-color', color)
+    }
 
     this.dead = true; // growth is dead, unless told otherwise
 
@@ -51,7 +53,7 @@ function Growth(start, color) {
           recentCells.indexOf(neighbor) < 0
         ) {
           this.dead = false;
-          dCell(neighbor, color);
+          dCell(neighbor, 'background-color', color);
           newCells.push(neighbor);
         }
       }
@@ -92,14 +94,16 @@ function renderGrid(cellSize, adj) {
   return gridJS;
 }
 
-function reRenderGrid(size) { // clean this shit up
-  Grid = renderGrid(size, ADJ);
-  R = Object.keys(Grid).length;
-  C = Object.keys(Grid[0]).length;
+// a SHIT LOAD faster than using jQuery's $('.cell').css({...})
+function forEachCellIn(grid, styles) {
+  for (var r in grid) {
+    var row = grid[r];
+    for (var c in row) {
+      var cellId = row[c];
 
-  midR = Math.floor(R/2);
-  midC = Math.floor(C/2);
-  START = Grid[midR][midC];
+      for (var property in styles) {
+        dCell(cellId, property, styles[property]);
+      }
+    }
+  }
 }
-
-

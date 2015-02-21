@@ -30,13 +30,12 @@ function colorSample(base) {
 
 var growths = [new Growth(START, colorSample(false))];
 
-// var t = (new Date()).getTime(); // TODO remove
+var t = (new Date()).getTime(); // TODO remove
 
-// TODO get rid of jQuery
 function warp() {
   var randSize = Math.random()*CELLSIZE*CELL_SIZE_ADJ;
 
-  $('.cell').css({
+  forEachCellIn( Grid, {
     'height': randSize, 
     'width': randSize,
     'border-radius': Math.random()*CELLSIZE*CELL_RAD_ADJ,
@@ -47,17 +46,20 @@ function warp() {
   });
 }
 
-function run() {
+function renderGrowths() {
   for (var g=0; g < growths.length; g++) {
     var growth = growths[g];
-    growth.dGrid();
+    growth.render();
     if (growth.dead) {
       growths.splice(g,1); g--; // remove from array, adjust ix
     }
   }
+}
 
+function run() {
+  renderGrowths();
   warp();
-  // console.log((new Date()).getTime() - t);  // TODO remove
+  console.log((new Date()).getTime() - t);  // TODO remove
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -101,6 +103,4 @@ window.onkeydown = function(e){
   if (e.keyCode === 40) { changeCellSize(-0.1); } // down
   if (e.keyCode === 37) { changeCellRadius(-0.1); } // left
   if (e.keyCode === 39) { changeCellRadius(0.1); } // right
-
-
 }
