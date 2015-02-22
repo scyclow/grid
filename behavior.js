@@ -1,16 +1,16 @@
-TIME = 30;// ms
+TIME = 30;//ms
 
-var colors = new ColorPalette;
-var growths = [new Growth(START, colors.sample(false))];
+var colors = new ColorPalette; // colors.js
+var growths = [new Growth(START, colors.sample(false))]; //growth.js
 
 function run() {
   renderGrowths();
-  warpCells();
+  warpCells(); // warp.js
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
   setInterval(run, TIME);
-  setInterval(auto.run, auto.TIME);
+  setInterval(auto.run, auto.TIME); // auto.js
 });
 
 window.onkeydown = function(e){

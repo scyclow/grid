@@ -1,3 +1,5 @@
+// Grid >> grid.js
+
 function Growth(start, color) {
   var newCells = [start];
   var oldCells = [];
