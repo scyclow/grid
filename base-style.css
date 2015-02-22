@@ -5,6 +5,8 @@
 
 body {
   background-color: #0543AC;
+  transition-duration: 0.5s;
+  -webkit-transition-duration: 0.5s;
 }
 
 .grid {

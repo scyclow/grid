@@ -1,19 +1,3 @@
-TIME = 10;
-CELLSIZE = 20;//px
-ADJ = 0.91;
-
-var Grid = renderGrid(CELLSIZE, ADJ);
-var R = Object.keys(Grid).length;
-var C = Object.keys(Grid[0]).length;
-
-var midR = Math.floor(R/2);
-var midC = Math.floor(C/2);
-var START = Grid[midR][midC];
-
-function dCell(cell, cssStyle, property) {
-  document.getElementById(cell).style[cssStyle]=property;
-}
-
 function Growth(start, color) {
   var newCells = [start];
   var oldCells = [];
@@ -61,37 +45,32 @@ function Growth(start, color) {
   }
 }
 
-function renderGrid(cellSize, adj) {
-  var maxW = window.outerWidth*adj;
-  var maxH = window.innerHeight;
+function dCell(cell, cssStyle, property) {
+  document.getElementById(cell).style[cssStyle]=property;
+}
 
-  var rowN = Math.floor(maxH/cellSize);
-  var colN = Math.floor(maxW/cellSize);
-
-  var griDOM = document.getElementById('grid');
-  var gridJS = {};
-
-  for (var r=0; r<rowN; r++) {
-    var tr = document.createElement('div');
-    tr.setAttribute('class', 'row')
-    gridJS[r] = {};
-
-    for (var c=0; c<colN; c++) {
-      var td = document.createElement('div');
-      var id = [r,c].join('-');
-      td.setAttribute('id', id);
-      td.setAttribute('class', 'cell');
-      tr.appendChild(td);
-      gridJS[r][c] = id;
+function renderGrowths() {
+  for (var g=0; g < growths.length; g++) {
+    var growth = growths[g];
+    growth.render();
+    if (growth.dead) {
+      growths.splice(g,1); g--; // remove from array, adjust ix
     }
-
-    griDOM.appendChild(tr);
   }
+}
 
-  griDOM.style.width = maxW/adj;
-  griDOM.style.height = maxH*adj;
+function newGrowth(colorIx) {
+  var newColor = colors.active[colorIx] || colors.sample();
+  growths.push(new Growth(START, newColor));
+}
 
-  return gridJS;
+function erase() {
+  growths = [
+    new Growth(Grid[0][0], colors.sample(true)),
+    new Growth(Grid[0][C-1], colors.sample(true)),
+    new Growth(Grid[R-1][0], colors.sample(true)),
+    new Growth(Grid[R-1][C-1], colors.sample(true))
+  ];
 }
 
 // a SHIT LOAD faster than using jQuery's $('.cell').css({...})
