@@ -11,6 +11,8 @@ function run() {
 document.addEventListener("DOMContentLoaded", function(event) {
   setInterval(run, TIME);
   setInterval(auto.run, auto.TIME); // auto.js
+  console.log('If you\'re reading this, then you probably know enough to help me fix some bugs.');
+  console.log('All known issues are listed here: https://github.com/scyclow/grid');
 });
 
 window.onkeydown = function(e){
