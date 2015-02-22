@@ -1,5 +1,5 @@
 var auto = {
-  active: false,
+  active: true,
   TIME: 75,
   PROB: 0.5,
 
